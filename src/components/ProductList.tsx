@@ -36,7 +36,7 @@ const ProductList: React.FC = () => {
         if (!window.confirm('Are you sure you want to delete this product?')) return;
 
         productApi.delete(id).then(() => {
-            dispatch({ type: 'DELETE_PRODUCT', payload: id });
+            dispatch(deleteProduct(id));
         });
     };
 

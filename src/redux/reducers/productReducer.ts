@@ -1,28 +1,18 @@
-import {
-    FETCH_PRODUCTS,
-    ADD_PRODUCT,
-    UPDATE_PRODUCT,
-    DELETE_PRODUCT
-} from '../actions/productTypes';
-
 import { Product } from '../../types/product';
-
-type Action =
-    | { type: typeof FETCH_PRODUCTS; payload: Product[] }
-    | { type: typeof ADD_PRODUCT; payload: Product }
-    | { type: typeof UPDATE_PRODUCT; payload: Product }
-    | { type: typeof DELETE_PRODUCT; payload: string };
+import { FETCH_PRODUCTS, ADD_PRODUCT, UPDATE_PRODUCT, DELETE_PRODUCT } from '../actions/productTypes';
 
 const initialState: Product[] = [];
 
-const productReducer = (state = initialState, action: Action): Product[] => {
+const productReducer = (state = initialState, action: any): Product[] => {
     switch (action.type) {
         case FETCH_PRODUCTS:
             return action.payload;
         case ADD_PRODUCT:
             return [...state, action.payload];
         case UPDATE_PRODUCT:
-            return state.map((p) => (p.id === action.payload.id ? action.payload : p));
+            return state.map(prod =>
+                prod.id === action.payload.id ? action.payload : prod
+            );
         case DELETE_PRODUCT:
             return state.filter((p) => p.id !== action.payload);
         default:
