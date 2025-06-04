@@ -63,13 +63,13 @@ http://localhost:3000
 ### Build the Docker image:
 
 ```bash
-docker build -t product-spa .
+docker build -t product-spa:latest .
 ```
 
 ### Run the container:
 
 ```bash
-docker run -p 3000:3000 product-spa
+docker run -p 3000:80 product-spa:latest
 ```
 
 ---
