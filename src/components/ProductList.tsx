@@ -13,20 +13,24 @@ const ProductList: React.FC = () => {
     const [editingProduct, setEditingProduct] = useState<Product | null>(null);
     const [adding, setAdding] = useState(false);
 
-    useEffect(() => {
+    const refetchProducts = () => {
         productApi.getAll().then((data) => dispatch(fetchProducts(data)));
-    }, [dispatch]);
+    };
+
+    useEffect(() => {
+        refetchProducts();
+    }, []);
 
     const handleSave = (productData: Omit<Product, 'id'>, id?: string) => {
         if (id) {
             const updatedProduct: Product = { id, ...productData };
             productApi.update(updatedProduct).then(() => {
-                dispatch(updateProduct(updatedProduct));
+                refetchProducts();
                 setEditingProduct(null);
             });
         } else {
-            productApi.add(productData).then((newProd) => {
-                dispatch(addProduct(newProd));
+            productApi.add(productData).then(() => {
+                refetchProducts();
                 setAdding(false);
             });
         }
@@ -37,6 +41,7 @@ const ProductList: React.FC = () => {
 
         productApi.delete(id).then(() => {
             dispatch(deleteProduct(id));
+            refetchProducts();
         });
     };
 
